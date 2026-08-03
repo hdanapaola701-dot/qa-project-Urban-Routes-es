@@ -1,6 +1,6 @@
 # 🚗 Proyecto Urban Routes - Pruebas Automatizadas (Sprint 9)
 
-Urban Routes es una aplicación web diseñada para planificar rutas y solicitar servicios de transporte de manera eficiente. La plataforma permite a los usuarios calcular el tiempo y costo de sus viajes, así como personalizar su experiencia seleccionando distintos tipos de transporte y servicios adicionales.
+Urban Routes es una plataforma integral diseñada para la planificación de movilidad urbana y la gestión de logística, permitiendo a los usuarios gestionar viajes y entregas en una interfaz unificada. Sus funcionalidades clave incluyen la configuración de perfiles, un selector modular de tarifas, reserva de vehículos en tiempo real, gestión de pagos y persistencia de datos para asegurar la consistencia del servicio. Para más detalles técnicos, consulte la documentación del proyecto Urban Routes.
 
 El sistema integra funcionalidades de planificación de rutas con la solicitud de taxis, ofreciendo opciones avanzadas como la selección de tarifas, comunicación con el conductor y la inclusión de artículos adicionales durante el viaje.
 
@@ -138,12 +138,17 @@ pip install selenium pytest webdriver-manager
 ## 🧠 Retos Técnicos y Soluciones
 
 * 🧩 **Contadores Dinámicos (Helados):** Los botones carecían de identificadores únicos. Se solucionó mediante consultas XPATH complejas utilizando el eje `ancestor` (`//div[text()='Helado']/ancestor::div...`).
-* 🛑 **Elementos Bloqueados por Modales:** El botón de pago fallaba debido a superposiciones de animaciones de la interfaz. Se solucionó inyectando JavaScript directo con `self.driver.execute_script("arguments[0].click();", payment_button)`.
+* 🛑 **Elementos Bloqueados por Modales:** El botón de pago fallaba debido a superposiciones de animaciones de la interfaz. Se solucionó inyectando JavaScript directo con `self.driver.execute_script("arguments.click();", payment_button)`.
 * ⌛ **Sincronización Dinámica (Código SMS):** Modales transitorios rompían el flujo asincrónico. Se dominó el uso de condiciones inversas con `expected_conditions.invisibility_of_element_located`.
 
 ---
 
 ## 🏅 Conclusión y Lecciones Aprendidas
+
+La automatización de *Urban Routes* consolidó mi transición práctica en la ingeniería de calidad de software. Este proyecto me enfrentó a dificultades reales en la inspección del DOM y la sincronización de interfaces dinámicas, transformando retos de código en lógica de control estructurada mediante el patrón **POM**.
+
+El mayor éxito fue lograr que la suite completa de **9 casos de prueba secuenciales corriera de principio a fin de manera fluida, limpia y en verde**. Ver la suite exitosa valida la estabilidad de mis scripts, el control de datos de prueba y la efectividad de las esperas explícitas. Estas bases técnicas me preparan con total seguridad para enfrentar flujos interactivos en industrias dinámicas como el Game QA y las Plataformas de Streaming. 🐌🚀
+
 
 La automatización de *Urban Routes* consolidó mi transición práctica en la ingeniería de calidad de software. Este proyecto me enfrentó a dificultades reales en la inspección del DOM y la sincronización de interfaces dinámicas, transformando retos de código en lógica de control estructurada mediante el patrón **POM**.
 
