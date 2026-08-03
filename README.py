@@ -1,88 +1,134 @@
 # 🚗 Proyecto Urban Routes - Pruebas Automatizadas (Sprint 9)
 
-El propósito de este proyecto es aplicar técnicas de automatización de pruebas web utilizando **Selenium WebDriver** y **Pytest**, validando los flujos críticos de usuario dentro de la plataforma de transporte Urban Routes de principio a fin.
+Urban Routes es una aplicación web diseñada para planificar rutas y solicitar servicios de transporte de manera eficiente. La plataforma permite a los usuarios calcular el tiempo y costo de sus viajes, así como personalizar su experiencia seleccionando distintos tipos de transporte y servicios adicionales.
+
+El sistema integra funcionalidades de planificación de rutas con la solicitud de taxis, ofreciendo opciones avanzadas como la selección de tarifas, comunicación con el conductor y la inclusión de artículos adicionales durante el viaje.
 
 ---
 
 ## 🎯 Objetivo del Proyecto
-Validar que todas las funcionalidades críticas de la aplicación móvil y web (desde la configuración de direcciones hasta la confirmación final del viaje) funcionen correctamente mediante pruebas automatizadas estables, reduciendo tiempos en pruebas de regresión.
+
+Validar que todas las funcionalidades críticas de la aplicación web (desde la configuración de direcciones hasta la confirmación final del viaje) funcionen correctamente mediante pruebas automatizadas estables, reduciendo tiempos en pruebas de regresión.
 
 ---
 
-## 🛠️ Tecnologías y Técnicas Utilizadas
+## 🦹 Alcance de las pruebas
 
-* **Python 3.x**: Lenguaje de programación principal de la suite.
-* **Selenium WebDriver**: Framework para la automatización de acciones en el navegador.
-* **Pytest**: Framework de testing para estructurar, organizar y ejecutar la suite de pruebas.
-* **ChromeDriver**: Driver para automatizar y controlar el navegador Google Chrome.
-* **WebDriverWait**: Implementación de esperas explícitas para mejorar la estabilidad ante elementos dinámicos.
-* **Page Object Model (POM)**: Patrón de diseño para separar la lógica de la UI de los casos de prueba.
+Las pruebas cubren el flujo completo de reserva de un taxi, incluyendo:
 
-### 🏷️ Estrategias de Localización Utilizadas
-* `By.ID`
-* `By.CLASS_NAME`
-* `By.CSS_SELECTOR`
-* `By.XPATH` (Consultas jerárquicas y uso de ejes como `ancestor`)
+📍 **Configuración de la ruta**
+* Ingreso de dirección en los campos "Desde" y "Hasta".
+* Validación de campos y visualización de puntos en el mapa cuando las direcciones son válidas.
+* Verificación de comportamiento ante datos válidos e inválidos y eliminación automática de espacios innecesarios.
+
+Selector **Modos de ruta y tarifas**
+* Selección automática de la mejor combinación de transporte en función del tiempo y costo (Óptimo, Flash y Comfort).
+* Validación de actualización dinámica de opciones disponibles según el modo seleccionado.
+
+🔐 **Autenticación del usuario**
+* Ingreso de número telefónico en la interfaz.
+* Captura automática del código SMS mediante logs del navegador y helpers dinámicos.
+* Validación del flujo de verificación e ingreso de código en el sistema.
+
+💳 **Gestión de pago**
+* Adición de tarjeta de crédito (ingreso de datos de tarjeta bancaria).
+* Validación de formularios y almacenamiento seguro de datos en la pasarela.
+
+💬 **Interacción con el conductor**
+* Envío de mensajes personalizados y comprobación de persistencia de la información en pantalla.
+
+🧳 **Servicios adicionales y confirmación**
+* Selección de artículos extra en el viaje como Mantas, Pañuelos y Helados (incluyendo validación del contador de cantidad).
+* Confirmación del servicio con la aparición del modal de búsqueda de taxi ("Buscar automóvil").
+* Espera controlada, verificación de la asignación del conductor y validación de la información mostrada al usuario.
 
 ---
 
-## 🧪 Cobertura de Pruebas Automatizadas (`test_main.py`)
+## 🟣 Lógica de funcionamiento
 
-La suite ejecuta 9 casos secuenciales que cubren las siguientes funcionalidades con aserciones (`assert`) rigurosas:
+* En el estado inicial, los campos de dirección están vacíos y las opciones adicionales se encuentran desactivadas.
+* La ruta solo se genera cuando ambos puntos (origen y destino) son válidos dentro de la plataforma.
+* En modos automáticos (Óptimo y Flash), el sistema decide el transporte de manera autónoma; en modo Personal, el usuario tiene control total sobre la configuración.
+* Cualquier cambio en los datos del formulario provoca la actualización dinámica de la ruta, el tiempo estimado y el costo del viaje.
+* La adición de elementos extra actualiza síncronamente el precio total antes de la confirmación del servicio.
+* La asignación del conductor interrumpe el estado de búsqueda y transiciona de forma limpia a la pantalla de información del chofer.
 
-1. **`test_1_set_route`:** Configuración y validación de direcciones de origen y destino.
-2. **`test_2_seleccionar_tarifa_comfort`:** Apertura del menú y selección de la tarifa Comfort.
-3. **`test_3_fill_in_phone_number`:** Flujo de teléfono y recuperación dinámica de código SMS vía helper.
-4. **`test_4_payment_method`:** Apertura de sección de pagos, ingreso y validación de datos de tarjeta bancaria.
-5. **`test_5_write_a_message_for_the_driver`:** Envío y comprobación de un mensaje personalizado al conductor.
-6. **`test_6_order_blanket_and_tissues`:** Activación y verificación booleana de manta y pañuelos.
-7. **`test_7_order_two_ice_cream`:** Clics secuenciales y validación del contador dinámico de helados en "2".
-8. **`test_8_the_option_to_search_for_a_taxi_appears`:** Confirmación de la solicitud y aparición del modal "Buscar automóvil".
-9. **`test_9_waiting_for_driver_information`:** Espera controlada y asignación exitosa de la información del conductor.
+## 🪶 Contenido del Proyecto
 
----
+Este proyecto contiene la automatización de pruebas end-to-end (E2E) para la aplicación Urban Routes, enfocada en validar el flujo completo de solicitud de un servicio de taxi y sus funcionalidades asociadas.
 
-## 📐 Patrón de Diseño e Interfaz
+El objetivo principal es garantizar que la aplicación funcione correctamente desde la perspectiva del usuario, validando tanto la interacción con la interfaz como la correcta ejecución de la lógica de negocio en cada etapa del proceso.
 
-El proyecto implementa el patrón **Page Object Model (POM)**, permitiendo separar la lógica de interacción de la interfaz de usuario de los casos de prueba lógicos.
-
-Esto facilita:
-* Mejor mantenimiento del código ante cambios visuales.
-* Reutilización de métodos de interacción.
-* Mayor legibilidad y escalabilidad de los scripts.
-
-### 📁 Estructura del Proyecto
+### 📁 Estructura de Archivos
 ```plaintext
 qa-project-Urban-Routes-es/
 │
-├── data.py          # Almacena los datos y variables estáticas de prueba
-├── main.py          # Implementación de clases y localizadores (POM)
-├── test_main.py     # Suite de 9 casos de prueba automatizados
+├── data.py          # Almacena los datos del usuario y variables estáticas de prueba
+├── main.py          # Implementación de clases de páginas y localizadores (POM)
+├── test_main.py     # Suite con los 9 casos de prueba automatizados
 ├── helpers.py       # Método auxiliar para la recuperación del código telefónico SMS
-└── README.md        # Documentación general del proyecto
+└── README.md        # Documentación general y guía del proyecto
 ```
+
+## 🧩 Tecnologías y Herramientas
+
+* **Lenguaje:** Python 3.x
+* **Framework de testing:** Pytest
+* **Automatización:** Selenium WebDriver
+* **Patrón de diseño:** Page Object Model (POM) para separar la lógica de la UI de los casos de prueba.
+* **Gestión de datos:** Diccionarios centralizados y archivos de configuración independientes (`data.py`).
+* **Logs y debugging:** Performance Logs del navegador para captura dinámica de eventos (como códigos SMS).
+
+### 🏷️ Estrategias de Localización Utilizadas
+* `By.ID` y `By.CLASS_NAME` para elementos estáticos comunes.
+* `By.CSS_SELECTOR` para búsquedas estructurales de interfaz de usuario.
+* `By.XPATH` (Consultas jerárquicas avanzadas y uso de ejes como `ancestor` para elementos dinámicos).
+
+---
+
+## 🪄 Enfoque de testing
+
+Se utiliza un enfoque de automatización E2E, simulando el comportamiento real del usuario en la aplicación desde el navegador Chrome.
+
+Incluye:
+* Interacción directa con los elementos de la interfaz mediante Selenium.
+* Uso de Page Object Model (POM) para estructurar el código de manera limpia y escalable.
+* Implementación de esperas explícitas (`WebDriverWait`) para manejar asincronías sin recurrir a pausas inestables.
+* Captura de datos dinámicos (como códigos SMS de verificación) desde logs del navegador en tiempo real.
+
+## ⚡ Aspectos destacados
+
+* **Cobertura completa:** Cobertura del 100% del flujo principal (9/9 escenarios secuenciales ejecutados limpiamente).
+* **Ejecución eficiente:** Suite optimizada con tiempos de respuesta ágiles (~11 segundos totales de ejecución).
+* **Alta mantenibilidad:** Arquitectura desacoplada gracias al patrón POM, facilitando actualizaciones ante cambios visuales en el DOM.
+* **Automatización robusta:** Scripts estables desarrollados sin dependencias de tiempos fijos o comandos inestables (`sleep`).
+
+## 🎯 Objetivo
+
+Garantizar que la experiencia de usuario en Urban Routes sea fluida, confiable y libre de errores, validando cada punto crítico del proceso de solicitud de transporte mediante pruebas automatizadas escalables.
 
 ---
 
 ## 🚀 Instrucciones de Ejecución
 
 ### Prerrequisitos
-Antes de ejecutar las pruebas, asegúrate de tener instalado:
-1. Python 3.x
-2. Google Chrome
-3. ChromeDriver compatible con tu versión de Chrome
+Antes de ejecutar las pruebas, asegúrate de contar con:
+1. Python 3.x instalado en tu sistema.
+2. Google Chrome instalado.
+3. ChromeDriver compatible con tu versión de Chrome (gestionado automáticamente).
 
 ### Instalación de Dependencias
+Ejecuta el siguiente comando en tu terminal para preparar el entorno:
 ```bash
 pip install selenium pytest webdriver-manager
 ```
 
-### Ejecución de Pruebas
-* **Ejecutar toda la suite:**
+### Ejecución de la Suite
+* **Ejecución estándar:**
   ```bash
   pytest
   ```
-* **Ejecutar pruebas con salida detallada:**
+* **Ejecución con salida detallada (Verbose):**
   ```bash
   pytest -v
   ```
@@ -91,22 +137,14 @@ pip install selenium pytest webdriver-manager
 
 ## 🧠 Retos Técnicos y Soluciones
 
-* 🧩 **Contadores Dinámicos (Helados):** Los botones carecían de IDs únicos. Se solucionó mediante consultas XPATH complejas y el eje `ancestor` (`//div[text()='Helado']/ancestor::div...`).
-* 🛑 **Elementos Bloqueados por Modales:** El botón de pago fallaba por animaciones de la interfaz. Se solucionó inyectando JavaScript directo con `self.driver.execute_script("arguments[0].click();", payment_botton)`.
-* ⌛ **Sincronización Dinámica (Código SMS):** Modales fantasmas rompían el flujo. Se dominó el uso de condiciones inversas con `expected_conditions.invisibility_of_element_located`.
+* 🧩 **Contadores Dinámicos (Helados):** Los botones carecían de identificadores únicos. Se solucionó mediante consultas XPATH complejas utilizando el eje `ancestor` (`//div[text()='Helado']/ancestor::div...`).
+* 🛑 **Elementos Bloqueados por Modales:** El botón de pago fallaba debido a superposiciones de animaciones de la interfaz. Se solucionó inyectando JavaScript directo con `self.driver.execute_script("arguments[0].click();", payment_button)`.
+* ⌛ **Sincronización Dinámica (Código SMS):** Modales transitorios rompían el flujo asincrónico. Se dominó el uso de condiciones inversas con `expected_conditions.invisibility_of_element_located`.
 
 ---
 
-## 🎯 Conclusión del Proyecto & Lecciones Aprendidas
+## 🏅 Conclusión y Lecciones Aprendidas
 
 La automatización de *Urban Routes* consolidó mi transición práctica en la ingeniería de calidad de software. Este proyecto me enfrentó a dificultades reales en la inspección del DOM y la sincronización de interfaces dinámicas, transformando retos de código en lógica de control estructurada mediante el patrón **POM**.
 
-### 🎉 El Resultado Final
-A pesar de la complejidad de los selectores, el mayor éxito fue lograr que la suite completa de **9 casos de prueba secuenciales corriera de principio a fin de manera fluida y limpia**. Ver la suite en verde valida la estabilidad de mis scripts, el control de datos de prueba y la efectividad de las esperas explícitas (`WebDriverWait`). Estas bases técnicas me preparan con total seguridad para enfrentar flujos interactivos en industrias dinámicas como el Game QA y las Plataformas de Streaming. 🐌🚀
-
-
-
-Objetivo del proyecto
-
-El propósito de este proyecto es aplicar técnicas de automatización de pruebas web utilizando Selenium y Pytest,
-validando flujos críticos de usuario dentro de la plataforma Urban Routes.
+El mayor éxito fue lograr que la suite completa de **9 casos de prueba secuenciales corriera de principio a fin de manera fluida, limpia y en verde**. Ver la suite exitosa valida la estabilidad de mis scripts, el control de datos de prueba y la efectividad de las esperas explícitas. Estas bases técnicas me preparan con total seguridad para enfrentar flujos interactivos en industrias dinámicas como el Game QA y las Plataformas de Streaming. 🐌🚀
