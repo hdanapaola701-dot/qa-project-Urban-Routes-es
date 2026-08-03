@@ -62,12 +62,11 @@ El objetivo principal es garantizar que la aplicación funcione correctamente de
 ```plaintext
 qa-project-Urban-Routes-es/
 │
-├── data.py          # Almacena los datos del usuario y variables estáticas de prueba
-├── main.py          # Implementación de clases de páginas y localizadores (POM)
-├── test_main.py     # Suite con los 9 casos de prueba automatizados
-├── helpers.py       # Método auxiliar para la recuperación del código telefónico SMS
-└── README.md        # Documentación general y guía del proyecto
-```
+├── README.py            # Documentación general y guía del proyecto en formato script
+├── UrbanRoutesPage.py   # Implementación de clases de páginas y localizadores (Patrón POM)
+├── data.py              # Almacena los datos del usuario y variables estáticas de prueba
+├── helpers.py           # Método auxiliar para la recuperación dinámica del código SMS
+└── test_main.py         # Suite con los 9 casos de prueba automatizados secuenciales
 
 ## 🧩 Tecnologías y Herramientas
 
