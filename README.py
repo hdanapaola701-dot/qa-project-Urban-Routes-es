@@ -1,7 +1,6 @@
 # 🚗 Proyecto Urban Routes - Pruebas Automatizadas (Sprint 9)
 
-Urban Routes es una plataforma integral diseñada para la planificación de movilidad urbana y la gestión de logística, permitiendo a los usuarios gestionar viajes y entregas en una interfaz unificada. Sus funcionalidades clave incluyen la configuración de perfiles, un selector modular de tarifas, reserva de vehículos en tiempo real, gestión de pagos y persistencia de datos para asegurar la consistencia del servicio. Para más detalles técnicos, consulte la documentación del proyecto Urban Routes.
-
+Urban Routes es una plataforma integral diseñada para la planificación de movilidad urbana y la gestión de logística, permitiendo a los usuarios gestionar viajes y entregas en una interfaz unificada. Sus funcionalidades clave incluyen la configuración de perfiles, un selector modular de tarifas, reserva de vehículos en tiempo real, gestión de pagos y persistencia de datos para asegurar la consistencia del servicio. 
 El sistema integra funcionalidades de planificación de rutas con la solicitud de taxis, ofreciendo opciones avanzadas como la selección de tarifas, comunicación con el conductor y la inclusión de artículos adicionales durante el viaje.
 
 ---
